@@ -1,4 +1,4 @@
-package com.example.moviedbapp
+package com.example.moviedbapp.model
 
 data class Genre(
     val id: Int,

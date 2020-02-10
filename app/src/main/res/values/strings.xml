@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MovieDBApp</string>
+    <string name="todo">TODO</string>
+    <string name="_5_0">5.0</string>
 </resources>

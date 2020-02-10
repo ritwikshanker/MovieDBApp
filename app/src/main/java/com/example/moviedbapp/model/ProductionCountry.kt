@@ -1,4 +1,4 @@
-package com.example.moviedbapp
+package com.example.moviedbapp.model
 
 data class ProductionCountry(
     val iso_3166_1: String,

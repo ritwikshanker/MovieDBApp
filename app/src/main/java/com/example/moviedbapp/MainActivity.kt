@@ -1,18 +1,29 @@
 package com.example.moviedbapp
 
-import androidx.appcompat.app.AppCompatActivity
+import com.example.moviedbapp.adapter.MoviesAdapter
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.moviedbapp.model.MoviesResponse
+import com.example.moviedbapp.rest.ApiClient
+import com.example.moviedbapp.rest.ApiInterface
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class MainActivity : AppCompatActivity() {
-    var TAG = MainActivity::class.simpleName
+    private val TAG = MainActivity::class.java.simpleName
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+//        recyclerView.adapter = MoviesAdapter(
+//            movies, R.layout.list_item_movie,
+//            applicationContext
+//        )
         if (API_KEY.isEmpty()) {
             Toast.makeText(
                 applicationContext,
@@ -21,17 +32,26 @@ class MainActivity : AppCompatActivity() {
             ).show()
             return
         }
+        val recyclerView = findViewById<RecyclerView>(R.id.movies_recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(this)
         val apiService = ApiClient.client?.create(ApiInterface::class.java)
-        val call = apiService?.getTopRatedMovies(API_KEY)
-        call?.enqueue(object : Callback<Movie> {
-            override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
-                val movies = response.body()?.original_title;
+        val call = apiService?.getTopRatedMovies(API_KEY,2)
+        call?.enqueue(object : Callback<MoviesResponse> {
+            override fun onResponse(
+                call: Call<MoviesResponse>,
+                response: Response<MoviesResponse>
+            ) {
+                val movies = response.body()?.movies;
                 if (movies != null) {
-                    Log.d(TAG, "Number of movies received: " + movies.length)
+                    recyclerView.adapter = MoviesAdapter(
+                        movies, R.layout.list_item_movie,
+                        applicationContext
+                    )
+                    Log.d(TAG, "Number of movies received: " + movies.size)
                 }
             }
 
-            override fun onFailure(call: Call<Movie>, t: Throwable) {
+            override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
                 // Log error here since request failed
                 Log.e(TAG, t.toString())
             }
@@ -40,6 +60,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private val TAG = MainActivity::class.java.simpleName
-        private val API_KEY = "762468f515d6235dff546e41954f9c3c"
+        private const val API_KEY = "762468f515d6235dff546e41954f9c3c"
     }
 }

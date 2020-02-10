@@ -1,5 +1,4 @@
-package com.example.moviedbapp
-
+package com.example.moviedbapp.model
 data class Movie(
     val adult: Boolean,
     val backdrop_path: String,
