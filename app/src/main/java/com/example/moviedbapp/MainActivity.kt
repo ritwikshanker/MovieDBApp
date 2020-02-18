@@ -1,12 +1,12 @@
 package com.example.moviedbapp
 
-import com.example.moviedbapp.adapter.MoviesAdapter
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.moviedbapp.adapter.MoviesAdapter
 import com.example.moviedbapp.model.MoviesResponse
 import com.example.moviedbapp.rest.ApiClient
 import com.example.moviedbapp.rest.ApiInterface
@@ -20,10 +20,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        recyclerView.adapter = MoviesAdapter(
-//            movies, R.layout.list_item_movie,
-//            applicationContext
-//        )
+
         if (API_KEY.isEmpty()) {
             Toast.makeText(
                 applicationContext,
@@ -35,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.movies_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
         val apiService = ApiClient.client?.create(ApiInterface::class.java)
-        val call = apiService?.getTopRatedMovies(API_KEY,2)
+        val call = apiService?.getTopRatedMovies(API_KEY, 1)
         call?.enqueue(object : Callback<MoviesResponse> {
             override fun onResponse(
                 call: Call<MoviesResponse>,

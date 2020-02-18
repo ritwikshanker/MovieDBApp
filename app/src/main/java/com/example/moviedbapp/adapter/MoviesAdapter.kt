@@ -1,16 +1,19 @@
 package com.example.moviedbapp.adapter
 
-import com.example.moviedbapp.R
-
+import android.content.Context
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.moviedbapp.R
+import com.example.moviedbapp.R.id.item_movie_poster
 import com.example.moviedbapp.R.id.movies_layout
 import com.example.moviedbapp.model.Movie
-import android.content.Context as Context
+
 
 class MoviesAdapter(movies: List<Movie>, rowLayout: Int, context: Context) :
     RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
@@ -19,19 +22,12 @@ class MoviesAdapter(movies: List<Movie>, rowLayout: Int, context: Context) :
     private val context: Context
 
     class MovieViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        internal var moviesLayout: LinearLayout
-        internal var movieTitle: TextView
-        internal var data: TextView
-        internal var movieDescription: TextView
-        internal var rating: TextView
-
-        init {
-            moviesLayout = v.findViewById(movies_layout) as LinearLayout
-            movieTitle = v.findViewById(R.id.title) as TextView
-            data = v.findViewById(R.id.subtitle) as TextView
-            movieDescription = v.findViewById(R.id.description) as TextView
-            rating = v.findViewById(R.id.rating) as TextView
-        }
+        internal var moviesLayout: LinearLayout = v.findViewById(movies_layout) as LinearLayout
+        internal var movieTitle: TextView = v.findViewById(R.id.title) as TextView
+        internal var data: TextView = v.findViewById(R.id.subtitle) as TextView
+        internal var movieDescription: TextView = v.findViewById(R.id.description) as TextView
+        internal var rating: TextView = v.findViewById(R.id.rating) as TextView
+        internal var poster : ImageView = v.findViewById(R.id.item_movie_poster) as ImageView
     }
 
     init {
@@ -52,6 +48,7 @@ class MoviesAdapter(movies: List<Movie>, rowLayout: Int, context: Context) :
         holder.data.text = movies[position].release_date
         holder.movieDescription.text = movies[position].overview
         holder.rating.text = movies[position].vote_average.toString()
+//        myHolder.imageUrl = current.itemImage;
     }
 
     override fun getItemCount(): Int {
